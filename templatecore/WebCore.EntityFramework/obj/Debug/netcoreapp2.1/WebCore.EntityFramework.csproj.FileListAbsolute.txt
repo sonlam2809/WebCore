@@ -1,0 +1,16 @@
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.deps.json
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.runtimeconfig.json
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.runtimeconfig.dev.json
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.dll
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.Entities.dll
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.Utils.dll
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.Entities.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\bin\Debug\netcoreapp2.1\WebCore.Utils.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.csprojAssemblyReference.cache
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.csproj.CoreCompileInputs.cache
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.AssemblyInfoInputs.cache
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.AssemblyInfo.cs
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.csproj.CopyComplete
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.dll
+D:\@Dilam\WebCore\templatecore\WebCore.EntityFramework\obj\Debug\netcoreapp2.1\WebCore.EntityFramework.pdb

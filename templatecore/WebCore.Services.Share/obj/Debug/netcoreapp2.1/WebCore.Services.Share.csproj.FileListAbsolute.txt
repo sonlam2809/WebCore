@@ -1,0 +1,16 @@
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Services.Share.deps.json
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Services.Share.dll
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Services.Share.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Entities.dll
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.dll
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Utils.dll
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.EntityFramework.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Utils.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\bin\Debug\netcoreapp2.1\WebCore.Entities.pdb
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.csprojAssemblyReference.cache
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.csproj.CoreCompileInputs.cache
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.AssemblyInfoInputs.cache
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.AssemblyInfo.cs
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.csproj.CopyComplete
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.dll
+D:\@Dilam\WebCore\templatecore\WebCore.Services.Share\obj\Debug\netcoreapp2.1\WebCore.Services.Share.pdb
