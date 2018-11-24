@@ -15,7 +15,6 @@ namespace WebCore.Entities
         public string JobTitle { get; set; }
         public string Contract { get; set; }
         public string Carrer { get; set; }
-        public string Address { get; set; }
         public WebCoreUser()
         {
             Id = Guid.NewGuid().ToString();

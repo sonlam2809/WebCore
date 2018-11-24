@@ -7,6 +7,7 @@ using WebCore.EntityFramework.Repositories;
 using WebCore.Services.Share.Admins.LanguageDetails;
 using WebCore.Services.Share.Admins.LanguageDetails.Dto;
 using WebCore.Utils.CollectionHelper;
+using WebCore.Utils.FilterHelper;
 using WebCore.Utils.Helpers;
 using WebCore.Utils.ModelHelper;
 
@@ -27,16 +28,7 @@ namespace WebCore.Services.Impl.Admins.LanguageDetails
             SetDefaultPageSize(languageFilterInput);
             IQueryable<LanguageDetail> query = languageDetailRepository.GetByCondition(x => x.LanguageCode == languageFilterInput.LangCode);
 
-            #region FILTER
-            if (!languageFilterInput.LanguageKey.IsNullOrWhiteSpace())
-            {
-                query = query.Where(x => x.LanguageKey.ToLower().Contains(languageFilterInput.LanguageKey.Trim().ToLower()));
-            }
-            if (!languageFilterInput.LanguageValue.IsNullOrWhiteSpace())
-            {
-                query = query.Where(x => x.LanguageValue.ToLower().Contains(languageFilterInput.LanguageValue.Trim().ToLower()));
-            }
-            #endregion
+            query = query.Filter(languageFilterInput);
 
             IQueryable<LanguageDetailDto> queryDto = query.ProjectTo<LanguageDetailDto>(mapper.ConfigurationProvider);
             return queryDto.PagedQuery(languageFilterInput);

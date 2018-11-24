@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using WebCore.Services.Share.ValidationHelper;
 using WebCore.Utils.ModelHelper;
 

@@ -24,8 +24,10 @@ namespace WebCore.Services.Share.Helper
 
 
             CreateMap<WebCoreUser, UserDto>();
-            CreateMap<WebCoreUser, UserInfoInput>();
-            CreateMap<UserInfoInput, WebCoreUser>();
+            CreateMap<WebCoreUser, WebCore.Services.Share.Admins.Users.Dto.UserInfoInput>();
+            CreateMap<WebCore.Services.Share.Admins.Users.Dto.UserInfoInput, WebCoreUser>();
+            CreateMap<WebCoreUser, WebCore.Services.Share.Admins.Users.Dto.UserResetPasswordInput>();
+            CreateMap<WebCore.Services.Share.Admins.Users.Dto.UserResetPasswordInput, WebCoreUser>();
 
             CreateMap<Language, LanguageDto>();
 

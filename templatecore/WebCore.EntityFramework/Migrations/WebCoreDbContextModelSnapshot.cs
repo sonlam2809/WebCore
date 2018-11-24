@@ -250,8 +250,6 @@ namespace WebCore.EntityFramework.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Address");
-
                     b.Property<string>("Carrer");
 
                     b.Property<string>("ConcurrencyStamp")

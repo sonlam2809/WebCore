@@ -6,7 +6,7 @@
     text-align: right;
 }
 
-ul.pagination > li > a {
+ul.pagination > li > a, ul.pagination > li.active > span {
     padding: 10px 20px;
     background: #a43eb7;
     margin-left: 10px;
@@ -16,17 +16,17 @@ ul.pagination > li > a {
     cursor: pointer;
 }
 
-ul.pagination > li.active > a {
+ul.pagination > li.active > span {
     color: white;
     font-weight: bold;
     background: #853294 !important;
     cursor: default !important;
 }
 
-    ul.pagination > li.active > a:hover {
-        background: #853294 !important;
-        color: white !important;
-    }
+ul.pagination > li.active > a:hover {
+    background: #853294 !important;
+    color: white !important;
+}
 
 ul.pagination > li.disabled > a {
     pointer-events: none;
@@ -49,8 +49,16 @@ ul.pagination > li.disabled > a {
     color: #777072;
 }
 
-@media (min-width: 1200px) {
-    .modal-dialog {
-        max-width: 800px!important;
-    }
+.align-top-right {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    z-index: 999;
+}
+
+.btn .material-icons {
+    font-size: 20px !important;
+    font-weight: bold;
+    left: 0px;
+    margin-right: 10px;
 }

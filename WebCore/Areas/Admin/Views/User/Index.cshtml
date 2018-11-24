@@ -1,13 +1,8 @@
-﻿@model WebCore.Areas.Admin.Models.Users.UserViewModel
+﻿@using WebCore.Services.Share.Admins.Users.Dto
+@model WebCore.Areas.Admin.Models.Users.UserViewModel
 <div class="main-panel">
     <div class="content">
         <partial name="FilterPartial" model="@Model.FilterInput" />
-        <div class="col-md-12">
-            <button onclick="openAddModal()" type="button" class="btn btn-primary">
-                <i class="material-icons">add</i>
-            </button>
-        </div>
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -16,7 +11,7 @@
                             <h4 class="card-title ">@Html.Lang("ADMIN_USER_PAGE")</h4>
                         </div>
                         <div id="mainList" class="card-body">
-                            <partial name="MainListPartial" model="Model.PagingResult" />
+                            <partial name="MainListPartial" model="@Model.PagingResult" />
                         </div>
                     </div>
                 </div>
@@ -25,10 +20,9 @@
     </div>
 </div>
 
-<div class="modal fade bd-example-modal-sm" id="modal-area" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-
+<div class="modal fade bd-example-modal-sm" id="input-area" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 </div>
 
-@section scripts{
+@section scripts{ 
     <partial name="JsPartial" />
 }

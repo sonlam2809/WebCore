@@ -1,13 +1,13 @@
 ﻿<script>
-    // open update info modal
-    function openUpdateInfoModal(id) {
+    // open update popup
+    function openUpdateModal(id) {
         $.get('/Admin/User/InputInfoPartial', { Id: id }).done(function (response) {
-            $('#modal-area').html(response);
+            $('#input-area').html(response);
             $('#saveInputForm').bootstrapMaterialDesign();
-            $('#modal-area').modal();
+            $('#input-area').modal();
         });
     }
-
+    
     // resetAllFilter
 
     $('#filter .reset-button').click(function () {
@@ -16,12 +16,22 @@
     });
 
     // reload table
+
     function reloadMainList() {
         $('#mainList').load('/Admin/User/MainListPartial');
     }
 
+    function openResetPasswordModal(id) {
+        $.get('/Admin/User/ResetPasswordPartial', { Id: id }).done(function (response) {
+            $('#input-area').html(response);
+            $('#saveInputForm').bootstrapMaterialDesign();
+            $('#input-area').modal();
+        });
+    }
+
     // on update success
     function onInputSubmitDone(response) {
+        $('#input-area').modal('hide');
         switch (response.result) {
             case @ConstantConfig.WebApiStatusCode.Success:
                 showSuccessNotification(response.message);
@@ -33,10 +43,9 @@
                 showErrorNotification(response.message);
                 break;
         }
-        $('#modal-area').modal('hide');
         reloadMainList();
     }
     function onInputSubmitFail(response) {
-        console.log(response);
+        console.log(response.responseText);
     }
 </script>

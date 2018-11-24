@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using WebCore.Areas.Admin.Models;
+using WebCore.Services.Share.Admins.Languages;
+using WebCore.Services.Share.Admins.Languages.Dto;
 using WebCore.Services.Share.Languages;
 using WebCore.Utils.Config;
 using WebCore.Utils.ModelHelper;
@@ -14,17 +18,22 @@ namespace WebCore.Areas.Admin.Controllers
     public class AdminBaseController : Controller
     {
         protected IServiceProvider serviceProvider;
-        private readonly ILanguageProviderService languageService;
+        private readonly ILanguageProviderService languageProvider;
+        private readonly ILanguageAdminService languageAdminService;
 
         public AdminBaseController(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
-            languageService = (ILanguageProviderService)serviceProvider.GetService(typeof(ILanguageProviderService));
+            languageProvider = (ILanguageProviderService)serviceProvider.GetService(typeof(ILanguageProviderService));
+            languageAdminService = (ILanguageAdminService)serviceProvider.GetService(typeof(ILanguageAdminService));
         }
 
         protected void InitAdminBaseViewModel(AdminBaseViewModel adminBaseViewModel)
         {
-
+            adminBaseViewModel.CurrentLanguage = CultureInfo.CurrentCulture.Name;
+            var languages = languageAdminService.GetAllLanguages();
+            SelectList languagesSelectList = new SelectList(languages, nameof(LanguageDto.LangCode), nameof(LanguageDto.LangName));
+            ViewBag.Languages = languagesSelectList;
         }
 
         protected string[] GetAllPermissions()
@@ -36,25 +45,25 @@ namespace WebCore.Areas.Admin.Controllers
             return HttpContext.User.Claims.Where(x => x.Type == ConstantConfig.ClaimType.Permission).Select(x => x.Value).ToArray();
         }
 
-        protected TModel GetInSession<TModel>(string sessionName) where TModel : new()
+        protected TFilter GetFilterInSession<TFilter>(string sessionName) where TFilter : new()
         {
             try
             {
                 string filter = HttpContext.Session.GetString(sessionName);
                 if (filter == null)
                 {
-                    TModel filterModel = new TModel();
+                    TFilter filterModel = new TFilter();
 
                     return filterModel;
                 }
                 else
                 {
-                    return JsonConvert.DeserializeObject<TModel>(filter);
+                    return JsonConvert.DeserializeObject<TFilter>(filter);
                 }
             }
             catch
             {
-                return new TModel();
+                return new TFilter();
             }
         }
 
@@ -69,7 +78,7 @@ namespace WebCore.Areas.Admin.Controllers
                 });
         }
 
-        protected void SetToSession(string sessionName, object filterObject)
+        protected void SetFilterToSession(string sessionName, object filterObject)
         {
             string jsonString = JsonConvert.SerializeObject(filterObject);
             HttpContext.Session.SetString(sessionName, jsonString);
@@ -82,7 +91,7 @@ namespace WebCore.Areas.Admin.Controllers
 
         protected string GetLang(string code)
         {
-            return languageService.GetlangByKey(code);
+            return languageProvider.GetlangByKey(code);
         }
     }
 }

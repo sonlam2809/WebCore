@@ -105,3 +105,11 @@ $('body').delegate('form[data-noreload="true"]', 'submit', function (e) {
         });
     }
 })
+
+$('.select2-with-search').select2();
+
+function changeLanguage(langCode) {
+    $.get('/Resource/ChangeLanguage?langCode=' + langCode).done(function () {
+        location.reload();
+    });
+}

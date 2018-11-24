@@ -39,6 +39,7 @@ namespace WebCore.EntityFramework.Seeds
             seeders = new List<BaseSeeder>()
             {
                 new LanguageSeeder(),
+                new LanguageDetailSeeder(),
                 new SystemConfigSeeder()
             };
         }
@@ -60,13 +61,14 @@ namespace WebCore.EntityFramework.Seeds
                 });
                 await EnsureRoleAsync(userRoleName, "Default user", new string[] { });
 
-                await CreateUserAsync("admin@webcore.com", "tempP@ss123", "Admin", "Last", "admin@webcore.com", "+1 (123) 000-0000", new string[] { adminRoleName });
-                await CreateUserAsync("user@webcore.com", "tempP@ss123", "User", "Last", "user@webcore.com", "+1 (123) 000-0001", new string[] { userRoleName });
+
+                await CreateUserAsync("admin@webcore.com", "tempP@ss123", "Admin", "Last", "admin@webcore.com", "+1 (123) 000-0000", "Giáo viên", new string[] { adminRoleName });
+                await CreateUserAsync("user@webcore.com", "tempP@ss123", "User", "Last", "user@webcore.com", "+1 (123) 000-0001", "Học sinh", new string[] { userRoleName });
 
                 logger.LogInformation("Inbuilt account generation completed");
             }
 
-            foreach(var seeder in seeders)
+            foreach (BaseSeeder seeder in seeders)
             {
                 seeder.InitDb(context);
             }
@@ -97,7 +99,14 @@ namespace WebCore.EntityFramework.Seeds
             }
         }
 
-        private async Task<WebCoreUser> CreateUserAsync(string userName, string password, string firstName, string lastName, string email, string phoneNumber, string[] roles)
+        private async Task<WebCoreUser> CreateUserAsync(string userName
+            , string password
+            , string firstName
+            , string lastName
+            , string email
+            , string phoneNumber
+            , string carrer
+            , string[] roles)
         {
             WebCoreUser webCoreUser = new WebCoreUser
             {
@@ -106,6 +115,7 @@ namespace WebCore.EntityFramework.Seeds
                 LastName = lastName,
                 Email = email,
                 PhoneNumber = phoneNumber,
+                Carrer = carrer,
                 EmailConfirmed = true,
                 RecordStatus = 0
             };

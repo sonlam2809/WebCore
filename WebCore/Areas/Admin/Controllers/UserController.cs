@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using WebCore.Areas.Admin.Models.Users;
+using WebCore.Entities;
 using WebCore.Services.Share.Admins.Users;
 using WebCore.Services.Share.Admins.Users.Dto;
 using WebCore.Utils.Config;
@@ -21,56 +22,80 @@ namespace WebCore.Areas.Admin.Controllers
 
         public IActionResult Index(int pageIndex = 1)
         {
-            UserFilterInput filterInput = GetInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
+            UserFilterInput filterInput = GetFilterInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
             filterInput.PageNumber = pageIndex;
-            UserViewModel userViewModel = new UserViewModel()
-            {
-                PagingResult = userService.GetAll(filterInput),
-                FilterInput = filterInput
-            };
+            UserViewModel userViewModel = new UserViewModel();
+            userViewModel.FilterInput = filterInput;
+            userViewModel.PagingResult = userService.GetAllByPaging(filterInput);
+            InitAdminBaseViewModel(userViewModel);
             return View(userViewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult FilterPartial(UserFilterInput filterInput)
         {
-            SetToSession(ConstantConfig.SessionName.UserSession, filterInput);
-            return RedirectToAction("Index");
+            SetFilterToSession(ConstantConfig.SessionName.UserSession, filterInput);
+            return RedirectToAction("Index", new { page = 1 });
         }
 
         [HttpGet]
-        public IActionResult MainListPartial()
+        public IActionResult ResetPasswordPartial(EntityId<string> idModel = null)
         {
-            UserFilterInput filterInput = GetInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
-            PagingResultDto<UserDto> pagingResult = userService.GetAll(filterInput);
-            return PartialView(pagingResult);
+            UserResetPasswordInput input = null;
+            if (idModel == null)
+            {
+                input = new UserResetPasswordInput();
+            }
+            else
+            {
+                input = userService.GetResetPasswordInputById(idModel);
+            }
+
+            return PartialView(input);
         }
 
         [HttpGet]
         public IActionResult InputInfoPartial(EntityId<string> idModel = null)
         {
-            if (idModel != null && idModel.Id != null)
+            UserInfoInput input = null;
+            if (idModel == null)
             {
-                UserInfoInput userInput = userService.GetInputById(idModel);
-                return PartialView(userInput);
+                input = new UserInfoInput();
             }
-            return Unauthorized();
+            else
+            {
+                input = userService.GetInputById(idModel);
+            }
+
+            return PartialView(input);
         }
 
         [HttpPost]
-        public async Task<IActionResult> InputInfoPartial(UserInfoInput userInfoInput)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> InputInfoPartial(UserInfoInput inputModel)
         {
-            Entities.WebCoreUser lastInfo = userService.GetById(userInfoInput);
-            if (!userInfoInput.UpdateToken.Equals(lastInfo.UpdateToken.GetValueOrDefault(Guid.Empty)))
+            if (inputModel.Id != null)
             {
+                //update
+                WebCoreUser lastInfo = userService.GetById(inputModel);
+                if (lastInfo.UpdateToken.GetValueOrDefault(Guid.Empty).Equals(inputModel.UpdateToken))
+                {
+                    await userService.UpdateInfo(inputModel);
+                    return Ok(new { result = ConstantConfig.WebApiStatusCode.Success, message = GetLang(ConstantConfig.WebApiResultMessage.UpdateSuccess) });
+                }
                 return Ok(new { result = ConstantConfig.WebApiStatusCode.Warning, message = GetLang(ConstantConfig.WebApiResultMessage.UpdateTokenNotMatch) });
             }
-            bool user = await userService.UpdateInfo(userInfoInput, lastInfo);
-            if (!user)
-            {
-                return Ok(new { result = ConstantConfig.WebApiStatusCode.Error, message = GetLang(ConstantConfig.WebApiResultMessage.Error) });
-            }
-            return Ok(new { result = ConstantConfig.WebApiStatusCode.Success, message = GetLang(ConstantConfig.WebApiResultMessage.UpdateSuccess) });
+            return Ok(new { result = ConstantConfig.WebApiStatusCode.Error, message = GetLang(ConstantConfig.WebApiResultMessage.Error) });
         }
+
+        public IActionResult MainListPartial()
+        {
+            UserFilterInput filterInput = GetFilterInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
+            PagingResultDto<UserDto> pagingResult = userService.GetAllByPaging(filterInput);
+            return PartialView(pagingResult);
+        }
+
+
     }
 }

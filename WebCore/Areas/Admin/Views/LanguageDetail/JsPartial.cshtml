@@ -22,7 +22,6 @@
     }
 
     // on update success
-
     function onInputSubmitDone(response) {
         switch (response.result) {
             case @ConstantConfig.WebApiStatusCode.Success:
@@ -39,6 +38,6 @@
         reloadMainList();
     }
     function onInputSubmitFail(response) {
-        console.log(response);
+        console.log(response.responseText);
     }
 </script>

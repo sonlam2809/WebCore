@@ -9,13 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="AdminAngularLTE\**" />
-    <Compile Remove="wwwroot\admin\plugins\js\**" />
+    <Compile Remove="wwwroot\plugins\js\**" />
     <Content Remove="AdminAngularLTE\**" />
-    <Content Remove="wwwroot\admin\plugins\js\**" />
+    <Content Remove="wwwroot\plugins\js\**" />
     <EmbeddedResource Remove="AdminAngularLTE\**" />
-    <EmbeddedResource Remove="wwwroot\admin\plugins\js\**" />
+    <EmbeddedResource Remove="wwwroot\plugins\js\**" />
     <None Remove="AdminAngularLTE\**" />
-    <None Remove="wwwroot\admin\plugins\js\**" />
+    <None Remove="wwwroot\plugins\js\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,11 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" PrivateAssets="All" />
     <PackageReference Include="Scrutor" Version="3.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +38,9 @@
     <ProjectReference Include="..\templatecore\WebCore.Utils\WebCore.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.3" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Identity\Services\" />
     <Folder Include="AppData\" />
@@ -46,9 +48,6 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="wwwroot\admin\js\pages\languageDetail.js" />
-    <None Include="wwwroot\admin\plugins\material-datepicker\font\Material-Design-Icons.svg" />
-    <None Include="wwwroot\admin\plugins\material-datepicker\font\Material-Design-Icons.woff2" />
-    <None Include="wwwroot\admin\plugins\material-datepicker\js\material-datepicker.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Areas\Admin\Views\LanguageDetail\FilterPartial.cshtml">

@@ -9,6 +9,7 @@ namespace WebCore.Utils.Config
         public static class MemoryCacheConfig
         {
             public const string LanguageCache = "LanguageCache";
+            public const string LanguageSelectCache = "LanguageSelectCache";
             public const string SystemConfigCache = "SystemConfigCache";
         }
         public static class Claims
@@ -49,7 +50,6 @@ namespace WebCore.Utils.Config
         public static class SystemConfigName
         {
             public const string PageDefaultNumber = "PageDefaultNumber";
-            public const string GetValue = "GetValue";
         }
         public static class SessionName
         {

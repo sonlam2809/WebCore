@@ -21,28 +21,11 @@
     </div>
 </div>
 
-
-
 <div class="modal fade bd-example-modal-sm" id="input-area" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-
 </div>
 
 @section scripts{
     <script asp-append-version="true" src="~/admin/js/pages/languageDetail.js"></script>
     <partial name="JsPartial" />
-    <script>
-        @*switch ('@Model.UpdateResult') {
-            case '@ConstantConfig.WebApiResultMessage.UpdateSuccess':
-                showSuccessNotification('@Html.Lang("LBL_UPDATE_SUCCESS_MESSAGE")');
-                break;
-            case '@ConstantConfig.WebApiResultMessage.Error':
-                showErrorNotification('@Html.Lang("LBL_ERROR_MESSAGE")');
-                break;
-            case '@ConstantConfig.WebApiResultMessage.UpdateTokenNotMatch':
-                showWarningMessage('@Html.Lang("LBL_ERROR_MESSAGE")');
-                break;
-        }*@
-        
-    </script>
 }
 

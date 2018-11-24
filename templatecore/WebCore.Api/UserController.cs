@@ -102,50 +102,50 @@ namespace WebCore.Api
             return Ok();
         }
 
-        //[HttpPut("UpdateInfo")]
-        //public async Task<IActionResult> UpdateInfo(UserInfoInput updateInput)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        string errorLangCode = ConstantConfig.WebApiResultMessage.Error;
-        //        string errorMessage = languageService.GetlangByKey(errorLangCode);
-        //        return BadRequest(new
-        //        {
-        //            Message = errorMessage,
-        //            ModelErrors = GetModelErrors()
-        //        });
-        //    }
+        [HttpPut("UpdateInfo")]
+        public async Task<IActionResult> UpdateInfo(UserInfoInput updateInput)
+        {
+            if (!ModelState.IsValid)
+            {
+                string errorLangCode = ConstantConfig.WebApiResultMessage.Error;
+                string errorMessage = languageService.GetlangByKey(errorLangCode);
+                return BadRequest(new
+                {
+                    Message = errorMessage,
+                    ModelErrors = GetModelErrors()
+                });
+            }
 
-        //    Entities.WebCoreUser lastEntity = userService.GetById(updateInput);
+            Entities.WebCoreUser lastEntity = userService.GetById(updateInput);
 
-        //    if (lastEntity == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (lastEntity == null)
+            {
+                return NotFound();
+            }
 
-        //    // check update token
-        //    if (!lastEntity.UpdateToken.GetValueOrDefault().Equals(updateInput.UpdateToken))
-        //    {
-        //        string errorLangCode = ConstantConfig.WebApiResultMessage.UpdateTokenNotMatch;
-        //        string errorMessage = languageService.GetlangByKey(errorLangCode);
-        //        return BadRequest(new
-        //        {
-        //            StatusCode = ConstantConfig.WebApiStatusCode.Warning,
-        //            Message = errorMessage
-        //        });
-        //    }
+            // check update token
+            if (!lastEntity.UpdateToken.GetValueOrDefault().Equals(updateInput.UpdateToken))
+            {
+                string errorLangCode = ConstantConfig.WebApiResultMessage.UpdateTokenNotMatch;
+                string errorMessage = languageService.GetlangByKey(errorLangCode);
+                return BadRequest(new
+                {
+                    StatusCode = ConstantConfig.WebApiStatusCode.Warning,
+                    Message = errorMessage
+                });
+            }
 
-        //    bool result = await userService.UpdateInfo(updateInput);
+            bool result = await userService.UpdateInfo(updateInput);
 
-        //    if (!result)
-        //    {
-        //        string errorLangCode = ConstantConfig.WebApiResultMessage.Error;
-        //        string errorMessage = languageService.GetlangByKey(errorLangCode);
-        //        return BadRequest(errorMessage);
-        //    }
+            if (!result)
+            {
+                string errorLangCode = ConstantConfig.WebApiResultMessage.Error;
+                string errorMessage = languageService.GetlangByKey(errorLangCode);
+                return BadRequest(errorMessage);
+            }
 
-        //    return Ok(updateInput);
-        //}
+            return Ok(updateInput);
+        }
 
         [HttpGet("GetGet")]
         public IActionResult GetGet()
@@ -266,7 +266,7 @@ namespace WebCore.Api
                 filterInput = new UserFilterInput();
             }
 
-            var result = userService.GetAll(filterInput);
+            var result = userService.GetAllByPaging(filterInput);
 
             return Ok(result);
         }

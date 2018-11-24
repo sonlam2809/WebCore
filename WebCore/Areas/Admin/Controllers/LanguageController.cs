@@ -21,17 +21,20 @@ namespace WebCore.Areas.Admin.Controllers
         {
             LanguageViewModel viewModel = new LanguageViewModel();
 
-            LanguageFilterInput filterInput = GetInSession<LanguageFilterInput>(ConstantConfig.SessionName.LanguageSession);
+            LanguageFilterInput filterInput = GetFilterInSession<LanguageFilterInput>(ConstantConfig.SessionName.LanguageSession);
             filterInput.PageNumber = page;
 
             viewModel.PagingResult = languageAdminService.GetAllByPaging(filterInput);
             viewModel.LanguageFilterInput = filterInput;
+
+            InitAdminBaseViewModel(viewModel);
+
             return View(viewModel);
         }
 
         public IActionResult SaveFilter(LanguageFilterInput filterInput)
         {
-            SetToSession(ConstantConfig.SessionName.LanguageSession, filterInput);
+            SetFilterToSession(ConstantConfig.SessionName.LanguageSession, filterInput);
             return RedirectToAction("Index", new { page = 1 });
         }
 

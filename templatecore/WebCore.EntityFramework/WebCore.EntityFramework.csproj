@@ -6,11 +6,12 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181014065356_AddLanguage.cs" />
+    <Compile Remove="Migrations\20181124063054_DataLangDetail.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

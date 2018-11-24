@@ -8,14 +8,15 @@
     public interface IUserService
     {
         Task<bool> Add(UserInfoInput addInput);
-        Task<bool> UpdateInfo(UserInfoInput updateInput,object obj);
+        Task<bool> UpdateInfo(UserInfoInput updateInput);
         Task<bool> Delete(EntityId<string> entityId);
         Task<bool> InActive(EntityId<string> entityId);
         Task<bool> Active(EntityId<string> entityId);
-        PagingResultDto<UserDto> GetAll(UserFilterInput filterInput);
+        PagingResultDto<UserDto> GetAllByPaging(UserFilterInput filterInput);
 
         WebCoreUser GetById(EntityId<string> entityId);
 
         UserInfoInput GetInputById(EntityId<string> entityId);
+        UserResetPasswordInput GetResetPasswordInputById(EntityId<string> entityId);
     }
 }

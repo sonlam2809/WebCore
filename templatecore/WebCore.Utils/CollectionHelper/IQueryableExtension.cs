@@ -27,6 +27,7 @@ namespace WebCore.Utils.CollectionHelper
             var result = new PagingResultDto<TModel>();
             result.RowCount = query.Count();
             result.PageSize = pagingFilterDto.PageSize;
+            result.CurrentPage = pagingFilterDto.PageNumber;
 
             var pageCount = (double)result.RowCount / result.PageSize;
             result.PageCount = (int)Math.Ceiling(pageCount);

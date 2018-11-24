@@ -2,16 +2,15 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using WebCore.EntityFramework.Repositories;
 using WebCore.Entities;
+using WebCore.EntityFramework.Repositories;
 using WebCore.Services.Share.Admins.Users;
 using WebCore.Services.Share.Admins.Users.Dto;
-using WebCore.Services.Share.SystemConfigs;
 using WebCore.Utils.CollectionHelper;
 using WebCore.Utils.Config;
 using WebCore.Utils.ModelHelper;
-using WebCore.Utils.FilterHelper;
 
 namespace WebCore.Services.Impl.Admins.Users
 {
@@ -20,6 +19,7 @@ namespace WebCore.Services.Impl.Admins.Users
         private readonly UserManager<WebCoreUser> userManager;
         private readonly IRepository<WebCoreUser, string> userRepository;
         private readonly IMapper mapper;
+
 
 
         public UserService(IServiceProvider serviceProvider, UserManager<WebCoreUser> userManager, IRepository<WebCoreUser, string> userRepository, IMapper mapper)
@@ -86,13 +86,35 @@ namespace WebCore.Services.Impl.Admins.Users
             return result.Succeeded;
         }
 
-        public PagingResultDto<UserDto> GetAll(UserFilterInput filterInput)
+        public PagingResultDto<UserDto> GetAllByPaging(UserFilterInput filterInput)
         {
             SetDefaultPageSize(filterInput);
 
             System.Linq.IQueryable<WebCoreUser> userQuery = userRepository.GetAll();
-            var userResult = userQuery
-                .CustomWhere(filterInput)
+
+            #region FILTER
+
+            // filter by UserName
+            if (filterInput.UserName != null)
+            {
+                userQuery = userQuery.Where(x => x.UserName.ToLower().Equals(filterInput.UserName.ToLower()));
+            }
+
+            // filter by FirstName
+            if (filterInput.FirstName != null)
+            {
+                userQuery = userQuery.Where(x => x.FirstName.ToLower().Contains(filterInput.FirstName.ToLower()));
+            }
+
+            // filter by Carrer
+            if (filterInput.Carrer != null)
+            {
+                userQuery = userQuery.Where(x => x.Carrer.ToLower().Contains(filterInput.Carrer.ToLower()));
+            }
+
+            #endregion
+
+            PagingResultDto<UserDto> userResult = userQuery
                 .ProjectTo<UserDto>(mapper.ConfigurationProvider)
                 .PagedQuery(filterInput);
 
@@ -100,7 +122,7 @@ namespace WebCore.Services.Impl.Admins.Users
         }
 
 
-        public async Task<bool> UpdateInfo(UserInfoInput updateInput, object obj)
+        public async Task<bool> UpdateInfo(UserInfoInput updateInput)
         {
             WebCoreUser entity = userRepository.GetById(updateInput.Id);
 
@@ -136,6 +158,23 @@ namespace WebCore.Services.Impl.Admins.Users
 
             return updateInput;
         }
+
+        public UserResetPasswordInput GetResetPasswordInputById(EntityId<string> entityId)
+        {
+            WebCoreUser entity = userRepository.GetById(entityId.Id);
+
+            UserResetPasswordInput updateInput = new UserResetPasswordInput();
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            updateInput = mapper.Map<UserResetPasswordInput>(entity);
+
+            return updateInput;
+        }
+
 
         public WebCoreUser GetById(EntityId<string> entityId)
         {

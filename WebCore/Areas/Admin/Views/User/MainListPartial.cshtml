@@ -1,5 +1,4 @@
-﻿@using WebCore.Services.Share.Admins.Users.Dto
-@model PagingResultDto<UserDto>
+﻿@model PagingResultDto<WebCore.Services.Share.Admins.Users.Dto.UserDto>
 <div class="table-responsive">
     <table class="table">
         <thead class=" text-primary">
@@ -8,27 +7,16 @@
                     @Html.Lang("LBL_ACTION")
                 </th>
                 <th>
-                    @(Html.LangFor<UserDto>(x => x.UserName, "WebUser"))
+                    @(Html.LangFor<WebCoreUser>(x => x.UserName, "WebUser"))
                 </th>
                 <th>
-                    @(Html.LangFor<UserDto>(x => x.FirstName, "WebUser"))
-                <th>
-                    @(Html.LangFor<UserDto>(x => x.LastName, "WebUser"))
+                    @(Html.LangFor<WebCoreUser>(x => x.FirstName, "WebUser"))
                 </th>
                 <th>
-                    @(Html.LangFor<UserDto>(x => x.Carrer, "WebUser"))
+                    @(Html.LangFor<WebCoreUser>(x => x.LastName, "WebUser"))
                 </th>
                 <th>
-                    @(Html.LangFor<UserDto>(x => x.PhoneNumber, "WebUser"))
-                </th>
-                <th>
-                    @(Html.LangFor<UserDto>(x => x.Email, "WebUser"))
-                </th>
-                <th>
-                    @(Html.LangFor<UserDto>(x => x.JoinDate, "WebUser"))
-                </th>
-                <th>
-                    @(Html.LangFor<UserDto>(x => x.Address, "WebUser"))
+                    @(Html.LangFor<WebCoreUser>(x => x.Carrer, "WebUser"))
                 </th>
             </tr>
         </thead>
@@ -45,28 +33,22 @@
                                 </p>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <div onclick="openPermissionModel('@item.Id')" class="dropdown-item">
-                                    <i class="material-icons">supervisor_account</i>
-                                    <p>
-                                        @Html.Lang("LBL_WEBUSER_ROLE")
-                                    </p>
-                                </div>
-                                <div onclick="openUpdateInfoModal('@item.Id')" class="dropdown-item">
+                                <div onclick="openUpdateModal('@item.Id')" class="dropdown-item">
                                     <i class="material-icons">create</i>
                                     <p>
                                         @Html.Lang("LBL_WEBUSER_UPDATE_INFO")
                                     </p>
                                 </div>
-                                <div class="dropdown-item">
-                                    <i class="material-icons">delete_forever</i>
+                                <div onclick="openResetPasswordModal('@item.Id')" class="dropdown-item">
+                                    <i class="material-icons">refresh</i>
                                     <p>
-                                        @Html.Lang("LBL_DELETE")
+                                        @Html.Lang("LBL_WEBUSER_RESET_PASSWORD")
                                     </p>
                                 </div>
-                                <div onclick="openUpdateModal(@item.Id)" class="dropdown-item">
+                                <div class="dropdown-item">
                                     <i class="material-icons">lock</i>
                                     <p>
-                                        @Html.Lang("LBL_WEBUSER_LOCK")
+                                        @Html.Lang("LBL_WEBUSER_INACTIVE")
                                     </p>
                                 </div>
                             </div>
@@ -83,18 +65,6 @@
                     </td>
                     <td>
                         @item.Carrer
-                    </td>
-                    <td>
-                        @item.PhoneNumber
-                    </td>
-                    <td>
-                        @item.Email
-                    </td>
-                    <td>
-                        @item.JoinDate?.ToString("dd/MM/yyyy")
-                    </td>
-                    <td>
-                        @item.Address
                     </td>
                 </tr>
             }

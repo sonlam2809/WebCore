@@ -25,15 +25,14 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group bmd-form-group">
-                            <label asp-for="LanguageValue" class="bmd-label-floating">@(Html.LangFor<LanguageDetail>(x => x.LanguageValue))</label>
-                            <input asp-for="LanguageValue" class="form-control" required />
+                            <label class="bmd-label-floating" asp-for="LanguageValue">@(Html.LangFor<LanguageDetail>(x=>x.LanguageValue))</label>
+                            <input language-support="true" class="form-control" asp-for="LanguageValue" required type="text" />
                             <span asp-validation-for="LanguageValue"></span>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">@Html.Lang("LBL_CLOSE")</button>
@@ -42,6 +41,5 @@
     </div>
 </div>
 <partial name="_ValidationScriptsPartial" />
-
 <script>
 </script>

@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Globalization;
 using WebCore.Entities;
@@ -94,27 +93,6 @@ namespace WebCore
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "ToDo API",
-                    Description = "A simple example ASP.NET Core Web API",
-                    TermsOfService = "None",
-                    Contact = new Contact
-                    {
-                        Name = "Shayne Boyer",
-                        Email = string.Empty,
-                        Url = "https://twitter.com/spboyer"
-                    },
-                    License = new License
-                    {
-                        Name = "Use under LICX",
-                        Url = "https://example.com/license"
-                    }
-                });
-            });
 
             //services.Scan(scan =>
             //    scan.FromAssemblyOf<ILanguageService>()
@@ -126,7 +104,6 @@ namespace WebCore
             {
                 options.Filters.Add(typeof(ValidateModelStateAttribute));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
 
             services.AddSession(options =>
             {
@@ -157,17 +134,6 @@ namespace WebCore
 
             app.UseAuthentication();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
-            });
-
             app.UseSession();
 
             app.UseMvc(routes =>
@@ -177,7 +143,36 @@ namespace WebCore
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default1",
+                    template: "index.html",
+                    new
+                    {
+                        controller = "Home",
+                        action = "Index"
+                    });
+            });
+
+
+            //var supportedCultures = new[]
+            //{
+            //    new CultureInfo("vi-VN"),
+            //    new CultureInfo("en-US"),
+            //};
+
+            //app.UseRequestLocalization(new RequestLocalizationOptions
+            //{
+            //    DefaultRequestCulture = new RequestCulture("vi-VN"),
+            //    // Formatting numbers, dates, etc.
+            //    SupportedCultures = supportedCultures,
+            //    // UI strings that we have localized.
+            //    SupportedUICultures = supportedCultures
+            //});
+
             CultureInfo.CurrentCulture = new CultureInfo("vi-VN");
+
 
             app.UseMvc(routes =>
             {

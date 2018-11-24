@@ -71,7 +71,7 @@ namespace WebCore.Utils.FilterHelper
             return Expression.Lambda<Func<T, bool>>(exp, param);
         }
 
-        public static IQueryable<TModel> CustomWhere<TModel, TFilter>(this IQueryable<TModel> query, TFilter filterObject)
+        public static IQueryable<TModel> Filter<TModel, TFilter>(this IQueryable<TModel> query, TFilter filterObject)
         {
             Expression<Func<TModel, bool>> predict = GetFilterExpression<TModel, TFilter>(filterObject);
             if (predict != null)

@@ -21,7 +21,8 @@ namespace WebCore.Helper
         }
         public static string LangFor<TSource>(this IHtmlHelper helper, Expression<Func<TSource, object>> selector, string groupName = "")
         {
-            var name = GetMemberName(selector.Body);
+            var memberExpression = (MemberExpression)selector.Body;
+            var name = memberExpression.Member.Name;
             if(String.IsNullOrWhiteSpace(groupName))
             {
                 groupName = typeof(TSource).Name;
@@ -42,49 +43,6 @@ namespace WebCore.Helper
         {
             var httpContext = helper.ViewContext.HttpContext.RequestServices.GetRequiredService<IHttpContextAccessor>();
             return httpContext.HttpContext.User.Claims.Any(x => x.Value == permission);
-        }
-
-
-        private static string GetMemberName(Expression expression)
-        {
-            if (expression == null)
-            {
-                throw new ArgumentException("Expression cannot be null");
-            }
-
-            if (expression is MemberExpression)
-            {
-                // Reference type property or field
-                var memberExpression = (MemberExpression)expression;
-                return memberExpression.Member.Name;
-            }
-
-            if (expression is MethodCallExpression)
-            {
-                // Reference type method
-                var methodCallExpression = (MethodCallExpression)expression;
-                return methodCallExpression.Method.Name;
-            }
-
-            if (expression is UnaryExpression)
-            {
-                // Property, field of method returning value type
-                var unaryExpression = (UnaryExpression)expression;
-                return GetMemberName(unaryExpression);
-            }
-
-            throw new ArgumentException("Invalid expression");
-        }
-
-        private static string GetMemberName(UnaryExpression unaryExpression)
-        {
-            if (unaryExpression.Operand is MethodCallExpression)
-            {
-                var methodExpression = (MethodCallExpression)unaryExpression.Operand;
-                return methodExpression.Method.Name;
-            }
-
-            return ((MemberExpression)unaryExpression.Operand).Member.Name;
         }
     }
 }
