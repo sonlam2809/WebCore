@@ -21,7 +21,7 @@ namespace WebCore.Areas.Admin.Controllers
         {
             LanguageViewModel viewModel = new LanguageViewModel();
 
-            LanguageFilterInput filterInput = GetFilterInSession<LanguageFilterInput>(ConstantConfig.SessionName.LanguageSession);
+            LanguageFilterInput filterInput = GetInSession<LanguageFilterInput>(ConstantConfig.SessionName.LanguageSession);
             filterInput.PageNumber = page;
 
             viewModel.PagingResult = languageAdminService.GetAllByPaging(filterInput);
@@ -31,7 +31,7 @@ namespace WebCore.Areas.Admin.Controllers
 
         public IActionResult SaveFilter(LanguageFilterInput filterInput)
         {
-            SetFilterToSession(ConstantConfig.SessionName.LanguageSession, filterInput);
+            SetToSession(ConstantConfig.SessionName.LanguageSession, filterInput);
             return RedirectToAction("Index", new { page = 1 });
         }
 

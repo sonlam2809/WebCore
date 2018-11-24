@@ -24,6 +24,8 @@ namespace WebCore.Services.Share.Helper
 
 
             CreateMap<WebCoreUser, UserDto>();
+            CreateMap<WebCoreUser, UserInfoInput>();
+            CreateMap<UserInfoInput, WebCoreUser>();
 
             CreateMap<Language, LanguageDto>();
 

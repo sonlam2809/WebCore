@@ -1,0 +1,42 @@
+﻿@model WebCore.Services.Share.Admins.Users.Dto.UserFilterInput
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title">@Html.Lang("LBL_FILTER")</h4>
+        </div>
+        <div class="card-body">
+            <form id="filter" asp-action="FilterPartial">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">@(Html.LangFor<WebCoreUser>(x => x.UserName, "WebUser"))</label>
+                            <input asp-for="UserName" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">@(Html.LangFor<WebCoreUser>(x => x.Email, "WebUser"))</label>
+                            <input asp-for="Email" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">@(Html.LangFor<WebCoreUser>(x => x.Address, "WebUser"))</label>
+                            <input asp-for="Address" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group bmd-form-group">
+                            <label class="bmd-label-floating">@(Html.LangFor<WebCoreUser>(x => x.PhoneNumber, "WebUser"))</label>
+                            <input asp-for="PhoneNumber" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary pull-right">@Html.Lang("LBL_FILTER_BUTTON")</button>
+                <button type="button" class="btn btn-primary pull-right reset-button">@Html.Lang("LBL_FILTER_RESET")</button>
+            </form>
+        </div>
+    </div>
+</div>

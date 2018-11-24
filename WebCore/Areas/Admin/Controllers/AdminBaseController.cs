@@ -36,25 +36,25 @@ namespace WebCore.Areas.Admin.Controllers
             return HttpContext.User.Claims.Where(x => x.Type == ConstantConfig.ClaimType.Permission).Select(x => x.Value).ToArray();
         }
 
-        protected TFilter GetFilterInSession<TFilter>(string sessionName) where TFilter : new()
+        protected TModel GetInSession<TModel>(string sessionName) where TModel : new()
         {
             try
             {
                 string filter = HttpContext.Session.GetString(sessionName);
                 if (filter == null)
                 {
-                    TFilter filterModel = new TFilter();
+                    TModel filterModel = new TModel();
 
                     return filterModel;
                 }
                 else
                 {
-                    return JsonConvert.DeserializeObject<TFilter>(filter);
+                    return JsonConvert.DeserializeObject<TModel>(filter);
                 }
             }
             catch
             {
-                return new TFilter();
+                return new TModel();
             }
         }
 
@@ -69,7 +69,7 @@ namespace WebCore.Areas.Admin.Controllers
                 });
         }
 
-        protected void SetFilterToSession(string sessionName, object filterObject)
+        protected void SetToSession(string sessionName, object filterObject)
         {
             string jsonString = JsonConvert.SerializeObject(filterObject);
             HttpContext.Session.SetString(sessionName, jsonString);

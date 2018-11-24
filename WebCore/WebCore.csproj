@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="AdminAngularLTE\**" />
+    <Compile Remove="wwwroot\admin\plugins\js\**" />
     <Content Remove="AdminAngularLTE\**" />
+    <Content Remove="wwwroot\admin\plugins\js\**" />
     <EmbeddedResource Remove="AdminAngularLTE\**" />
+    <EmbeddedResource Remove="wwwroot\admin\plugins\js\**" />
     <None Remove="AdminAngularLTE\**" />
+    <None Remove="wwwroot\admin\plugins\js\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +46,9 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="wwwroot\admin\js\pages\languageDetail.js" />
+    <None Include="wwwroot\admin\plugins\material-datepicker\font\Material-Design-Icons.svg" />
+    <None Include="wwwroot\admin\plugins\material-datepicker\font\Material-Design-Icons.woff2" />
+    <None Include="wwwroot\admin\plugins\material-datepicker\js\material-datepicker.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Areas\Admin\Views\LanguageDetail\FilterPartial.cshtml">

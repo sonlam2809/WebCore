@@ -10,6 +10,6 @@ namespace WebCore.Areas.Admin.Models.Users
     public class UserViewModel : AdminBaseViewModel
     {
         public PagingResultDto<UserDto> PagingResult { get; set; }
-        public UserFilterInput UserFilterDto { get; set; }
+        public UserFilterInput FilterInput { get; set; }
     }
 }

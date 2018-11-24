@@ -48,3 +48,9 @@ ul.pagination > li.disabled > a {
 .dropdown-menu .dropdown-item, .dropdown-menu li > a {
     color: #777072;
 }
+
+@media (min-width: 1200px) {
+    .modal-dialog {
+        max-width: 800px!important;
+    }
+}

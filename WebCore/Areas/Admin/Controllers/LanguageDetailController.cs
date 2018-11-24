@@ -27,7 +27,7 @@ namespace WebCore.Areas.Admin.Controllers
         public IActionResult Index(int page = 0, string langCode = "")
         {
             LanguageDetailViewModel viewModel = new LanguageDetailViewModel();
-            LanguageDetailFilterInput filterInput = GetFilterInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
+            LanguageDetailFilterInput filterInput = GetInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
             filterInput.PageNumber = page;
             filterInput.LangCode = langCode;
 
@@ -35,7 +35,7 @@ namespace WebCore.Areas.Admin.Controllers
             viewModel.LangCode = langCode;
             viewModel.FilterInput = filterInput;
             ViewData["langCode"] = langCode;
-            SetFilterToSession(ConstantConfig.SessionName.LanguageDetailSession, filterInput);
+            SetToSession(ConstantConfig.SessionName.LanguageDetailSession, filterInput);
             return View(viewModel);
         }
 
@@ -59,7 +59,7 @@ namespace WebCore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult InputPartial(LanguageDetailInput inputModel)
         {
-            LanguageDetailFilterInput filterInput = GetFilterInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
+            LanguageDetailFilterInput filterInput = GetInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
             if (inputModel.Id > 0)
             {
                 //update
@@ -77,13 +77,13 @@ namespace WebCore.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult FilterPartial(LanguageDetailFilterInput filterInput)
         {
-            SetFilterToSession(ConstantConfig.SessionName.LanguageDetailSession, filterInput);
+            SetToSession(ConstantConfig.SessionName.LanguageDetailSession, filterInput);
             return RedirectToAction("Index", new { page = 1, langCode = filterInput.LangCode });
         }
 
         public IActionResult MainListPartial()
         {
-            LanguageDetailFilterInput filterInput = GetFilterInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
+            LanguageDetailFilterInput filterInput = GetInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
             ViewData["langCode"] = filterInput.LangCode;
             var pagingResult = languageDetailService.GetAllByPaging(filterInput);
             return PartialView(pagingResult);

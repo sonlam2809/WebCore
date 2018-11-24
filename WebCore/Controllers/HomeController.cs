@@ -4,14 +4,13 @@ using System.Linq;
 using WebCore.Models;
 using WebCore.Services.Share.AppMenus;
 using WebCore.Services.Share.SystemConfigs;
-using WebCore.Utils.Attributes;
 using WebCore.Utils.Config;
 
 namespace WebCore.Controllers
 {
     public class HomeController : WebCoreBaseController
     {
-        ISystemConfigService systemConfigService;
+        private ISystemConfigService systemConfigService;
         private readonly IAppMenuService appMenuService;
 
         public HomeController(IAppMenuService appMenuService, ISystemConfigService systemConfigService)
@@ -23,7 +22,7 @@ namespace WebCore.Controllers
         public IActionResult Index()
         {
             decimal thamSo = systemConfigService.GetValueNumber(ConstantConfig.SystemConfigName.GetValue);
-            var menus = appMenuService.GetAllMenuByPermission(GetAllPermissions().ToList());
+            Utils.ModelHelper.ListResult<Services.Share.AppMenus.Dto.AppMenuDto> menus = appMenuService.GetAllMenuByPermission(GetAllPermissions().ToList());
             return View();
         }
 

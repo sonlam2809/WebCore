@@ -1,7 +1,105 @@
-﻿
-@{
-    ViewData["Title"] = "MainListPartial";
-}
+﻿@using WebCore.Services.Share.Admins.Users.Dto
+@model PagingResultDto<UserDto>
+<div class="table-responsive">
+    <table class="table">
+        <thead class=" text-primary">
+            <tr>
+                <th>
+                    @Html.Lang("LBL_ACTION")
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.UserName, "WebUser"))
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.FirstName, "WebUser"))
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.LastName, "WebUser"))
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.Carrer, "WebUser"))
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.PhoneNumber, "WebUser"))
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.Email, "WebUser"))
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.JoinDate, "WebUser"))
+                </th>
+                <th>
+                    @(Html.LangFor<UserDto>(x => x.Address, "WebUser"))
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td class="nav-item dropdown">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">settings</i>
+                                <p class="d-lg-none d-md-block">
+                                    @Html.Lang("LBL_ACTION")
+                                </p>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div onclick="openPermissionModel('@item.Id')" class="dropdown-item">
+                                    <i class="material-icons">supervisor_account</i>
+                                    <p>
+                                        @Html.Lang("LBL_WEBUSER_ROLE")
+                                    </p>
+                                </div>
+                                <div onclick="openUpdateInfoModal('@item.Id')" class="dropdown-item">
+                                    <i class="material-icons">create</i>
+                                    <p>
+                                        @Html.Lang("LBL_WEBUSER_UPDATE_INFO")
+                                    </p>
+                                </div>
+                                <div class="dropdown-item">
+                                    <i class="material-icons">delete_forever</i>
+                                    <p>
+                                        @Html.Lang("LBL_DELETE")
+                                    </p>
+                                </div>
+                                <div onclick="openUpdateModal(@item.Id)" class="dropdown-item">
+                                    <i class="material-icons">lock</i>
+                                    <p>
+                                        @Html.Lang("LBL_WEBUSER_LOCK")
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>
+                        @item.FirstName
+                    </td>
+                    <td>
+                        @item.LastName
+                    </td>
+                    <td>
+                        @item.Carrer
+                    </td>
+                    <td>
+                        @item.PhoneNumber
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.JoinDate?.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @item.Address
+                    </td>
+                </tr>
+            }
 
-<h2>MainListPartial</h2>
-
+        </tbody>
+    </table>
+    <custompager pager-model="@Model" />
+</div>

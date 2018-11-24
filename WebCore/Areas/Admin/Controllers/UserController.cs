@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 using WebCore.Areas.Admin.Models.Users;
 using WebCore.Services.Share.Admins.Users;
 using WebCore.Services.Share.Admins.Users.Dto;
 using WebCore.Utils.Config;
+using WebCore.Utils.ModelHelper;
 
 namespace WebCore.Areas.Admin.Controllers
 {
@@ -17,30 +19,58 @@ namespace WebCore.Areas.Admin.Controllers
             this.userService = userService;
         }
 
-        public IActionResult Index(int pageIndex = 0)
+        public IActionResult Index(int pageIndex = 1)
         {
-            UserFilterInput filterInput = GetFilterInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
+            UserFilterInput filterInput = GetInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
             filterInput.PageNumber = pageIndex;
-            var userViewModel = GetViewModel(filterInput);
+            UserViewModel userViewModel = new UserViewModel()
+            {
+                PagingResult = userService.GetAll(filterInput),
+                FilterInput = filterInput
+            };
             return View(userViewModel);
         }
 
-        public IActionResult MainListPartial(UserFilterInput filterInput)
+        [HttpPost]
+        public IActionResult FilterPartial(UserFilterInput filterInput)
         {
-            SetFilterToSession(ConstantConfig.SessionName.UserSession, filterInput);
-            var userViewModel = GetViewModel(filterInput);
-            return PartialView(userViewModel);
+            SetToSession(ConstantConfig.SessionName.UserSession, filterInput);
+            return RedirectToAction("Index");
         }
 
-        #region Private Method
-
-        private UserViewModel GetViewModel(UserFilterInput filterInput)
+        [HttpGet]
+        public IActionResult MainListPartial()
         {
-            UserViewModel userViewModel = new UserViewModel();
-            userViewModel.PagingResult = userService.GetAll(filterInput);
-            return userViewModel;
+            UserFilterInput filterInput = GetInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
+            PagingResultDto<UserDto> pagingResult = userService.GetAll(filterInput);
+            return PartialView(pagingResult);
         }
 
-        #endregion 
+        [HttpGet]
+        public IActionResult InputInfoPartial(EntityId<string> idModel = null)
+        {
+            if (idModel != null && idModel.Id != null)
+            {
+                UserInfoInput userInput = userService.GetInputById(idModel);
+                return PartialView(userInput);
+            }
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InputInfoPartial(UserInfoInput userInfoInput)
+        {
+            Entities.WebCoreUser lastInfo = userService.GetById(userInfoInput);
+            if (!userInfoInput.UpdateToken.Equals(lastInfo.UpdateToken.GetValueOrDefault(Guid.Empty)))
+            {
+                return Ok(new { result = ConstantConfig.WebApiStatusCode.Warning, message = GetLang(ConstantConfig.WebApiResultMessage.UpdateTokenNotMatch) });
+            }
+            bool user = await userService.UpdateInfo(userInfoInput, lastInfo);
+            if (!user)
+            {
+                return Ok(new { result = ConstantConfig.WebApiStatusCode.Error, message = GetLang(ConstantConfig.WebApiResultMessage.Error) });
+            }
+            return Ok(new { result = ConstantConfig.WebApiStatusCode.Success, message = GetLang(ConstantConfig.WebApiResultMessage.UpdateSuccess) });
+        }
     }
 }

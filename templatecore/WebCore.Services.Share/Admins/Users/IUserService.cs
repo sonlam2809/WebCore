@@ -7,8 +7,8 @@
 
     public interface IUserService
     {
-        Task<bool> Add(UserInput addInput);
-        Task<bool> UpdateInfo(UserInput updateInput);
+        Task<bool> Add(UserInfoInput addInput);
+        Task<bool> UpdateInfo(UserInfoInput updateInput,object obj);
         Task<bool> Delete(EntityId<string> entityId);
         Task<bool> InActive(EntityId<string> entityId);
         Task<bool> Active(EntityId<string> entityId);
@@ -16,6 +16,6 @@
 
         WebCoreUser GetById(EntityId<string> entityId);
 
-        UserInput GetInputById(EntityId<string> entityId);
+        UserInfoInput GetInputById(EntityId<string> entityId);
     }
 }

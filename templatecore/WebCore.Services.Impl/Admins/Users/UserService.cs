@@ -11,6 +11,7 @@ using WebCore.Services.Share.SystemConfigs;
 using WebCore.Utils.CollectionHelper;
 using WebCore.Utils.Config;
 using WebCore.Utils.ModelHelper;
+using WebCore.Utils.FilterHelper;
 
 namespace WebCore.Services.Impl.Admins.Users
 {
@@ -21,7 +22,6 @@ namespace WebCore.Services.Impl.Admins.Users
         private readonly IMapper mapper;
 
 
-
         public UserService(IServiceProvider serviceProvider, UserManager<WebCoreUser> userManager, IRepository<WebCoreUser, string> userRepository, IMapper mapper)
             : base(serviceProvider)
         {
@@ -30,7 +30,7 @@ namespace WebCore.Services.Impl.Admins.Users
             this.mapper = mapper;
         }
 
-        public async Task<bool> Add(UserInput addInput)
+        public async Task<bool> Add(UserInfoInput addInput)
         {
             WebCoreUser entity = mapper.Map<WebCoreUser>(addInput);
 
@@ -92,6 +92,7 @@ namespace WebCore.Services.Impl.Admins.Users
 
             System.Linq.IQueryable<WebCoreUser> userQuery = userRepository.GetAll();
             var userResult = userQuery
+                .CustomWhere(filterInput)
                 .ProjectTo<UserDto>(mapper.ConfigurationProvider)
                 .PagedQuery(filterInput);
 
@@ -99,7 +100,7 @@ namespace WebCore.Services.Impl.Admins.Users
         }
 
 
-        public async Task<bool> UpdateInfo(UserInput updateInput)
+        public async Task<bool> UpdateInfo(UserInfoInput updateInput, object obj)
         {
             WebCoreUser entity = userRepository.GetById(updateInput.Id);
 
@@ -108,7 +109,7 @@ namespace WebCore.Services.Impl.Admins.Users
                 return false;
             }
 
-            Mapper.Map(updateInput, entity);
+            mapper.Map(updateInput, entity);
 
             entity.RecordStatus = ConstantConfig.UserRecordStatus.Active;
 
@@ -120,18 +121,18 @@ namespace WebCore.Services.Impl.Admins.Users
             return result.Succeeded;
         }
 
-        public UserInput GetInputById(EntityId<string> entityId)
+        public UserInfoInput GetInputById(EntityId<string> entityId)
         {
             WebCoreUser entity = userRepository.GetById(entityId.Id);
 
-            UserInput updateInput = new UserInput();
+            UserInfoInput updateInput = new UserInfoInput();
 
             if (entity == null)
             {
                 return null;
             }
 
-            Mapper.Map(entity, updateInput);
+            updateInput = mapper.Map<UserInfoInput>(entity);
 
             return updateInput;
         }
