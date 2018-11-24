@@ -3,8 +3,10 @@ using System;
 using System.Threading.Tasks;
 using WebCore.Areas.Admin.Models.Users;
 using WebCore.Entities;
+using WebCore.EntityFramework.Helper;
 using WebCore.Services.Share.Admins.Users;
 using WebCore.Services.Share.Admins.Users.Dto;
+using WebCore.Utils.Attributes;
 using WebCore.Utils.Config;
 using WebCore.Utils.ModelHelper;
 
@@ -14,19 +16,23 @@ namespace WebCore.Areas.Admin.Controllers
     public class UserController : AdminBaseController
     {
         private readonly IUserService userService;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UserController(IServiceProvider serviceProvider, IUserService userService) : base(serviceProvider)
+        public UserController(IServiceProvider serviceProvider, IUserService userService, IUnitOfWork unitOfWork) : base(serviceProvider)
         {
             this.userService = userService;
+            this.unitOfWork = unitOfWork;
         }
 
         public IActionResult Index(int pageIndex = 1)
         {
             UserFilterInput filterInput = GetFilterInSession<UserFilterInput>(ConstantConfig.SessionName.UserSession);
             filterInput.PageNumber = pageIndex;
-            UserViewModel userViewModel = new UserViewModel();
-            userViewModel.FilterInput = filterInput;
-            userViewModel.PagingResult = userService.GetAllByPaging(filterInput);
+            UserViewModel userViewModel = new UserViewModel
+            {
+                FilterInput = filterInput,
+                PagingResult = userService.GetAllByPaging(filterInput)
+            };
             InitAdminBaseViewModel(userViewModel);
             return View(userViewModel);
         }
@@ -69,6 +75,25 @@ namespace WebCore.Areas.Admin.Controllers
             }
 
             return PartialView(input);
+        }
+
+        [HttpPost]
+        [ClaimRequirement(ConstantConfig.ClaimValue.BlockUser)]
+        public IActionResult InActiveUser(string userId)
+        {
+            try
+            {
+                unitOfWork.BeginTransaction();
+                userService.InActiveUser(userId);
+                unitOfWork.SaveChanges();
+                unitOfWork.CommitTransaction();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                unitOfWork.Rollback();
+                throw;
+            }
         }
 
         [HttpPost]

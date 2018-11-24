@@ -18,5 +18,7 @@
 
         UserInfoInput GetInputById(EntityId<string> entityId);
         UserResetPasswordInput GetResetPasswordInputById(EntityId<string> entityId);
+
+        void InActiveUser(string userId);
     }
 }

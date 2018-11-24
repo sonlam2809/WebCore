@@ -25,34 +25,53 @@
             {
                 <tr>
                     <td class="nav-item dropdown">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">settings</i>
-                                <p class="d-lg-none d-md-block">
-                                    @Html.Lang("LBL_ACTION")
-                                </p>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <div onclick="openUpdateModal('@item.Id')" class="dropdown-item">
-                                    <i class="material-icons">create</i>
-                                    <p>
-                                        @Html.Lang("LBL_WEBUSER_UPDATE_INFO")
+                        @if (item.RecordStatus != ConstantConfig.UserRecordStatus.InActive)
+                        {
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">settings</i>
+                                    <p class="d-lg-none d-md-block">
+                                        @Html.Lang("LBL_ACTION")
                                     </p>
-                                </div>
-                                <div onclick="openResetPasswordModal('@item.Id')" class="dropdown-item">
-                                    <i class="material-icons">refresh</i>
-                                    <p>
-                                        @Html.Lang("LBL_WEBUSER_RESET_PASSWORD")
-                                    </p>
-                                </div>
-                                <div class="dropdown-item">
-                                    <i class="material-icons">lock</i>
-                                    <p>
-                                        @Html.Lang("LBL_WEBUSER_INACTIVE")
-                                    </p>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div onclick="openUpdateModal('@item.Id')" class="dropdown-item">
+                                        <i class="material-icons">create</i>
+                                        <p>
+                                            @Html.Lang("LBL_WEBUSER_UPDATE_INFO")
+                                        </p>
+                                    </div>
+                                    <div onclick="openResetPasswordModal('@item.Id')" class="dropdown-item">
+                                        <i class="material-icons">refresh</i>
+                                        <p>
+                                            @Html.Lang("LBL_WEBUSER_RESET_PASSWORD")
+                                        </p>
+                                    </div>
+                                    @if (Html.HasPermission(ConstantConfig.ClaimValue.BlockUser))
+                                    {
+                                        <div onclick="lockUser('@item.Id')" class="dropdown-item">
+                                            <i class="material-icons">lock</i>
+                                            <p>
+                                                @Html.Lang("LBL_WEBUSER_INACTIVE")
+                                            </p>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            @if (Html.HasPermission(ConstantConfig.ClaimValue.BlockUser))
+                            {
+                                <div class="dropdown-item">
+                                    <i class="material-icons">unlock</i>
+                                    <p>
+                                        @Html.Lang("LBL_WEBUSER_ACTIVE")
+                                    </p>
+                                </div>
+                            }
+                        }
+
                     </td>
                     <td>
                         @item.UserName

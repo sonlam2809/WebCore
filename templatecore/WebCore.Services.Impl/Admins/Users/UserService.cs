@@ -10,6 +10,7 @@ using WebCore.Services.Share.Admins.Users;
 using WebCore.Services.Share.Admins.Users.Dto;
 using WebCore.Utils.CollectionHelper;
 using WebCore.Utils.Config;
+using WebCore.Utils.FilterHelper;
 using WebCore.Utils.ModelHelper;
 
 namespace WebCore.Services.Impl.Admins.Users
@@ -92,27 +93,7 @@ namespace WebCore.Services.Impl.Admins.Users
 
             System.Linq.IQueryable<WebCoreUser> userQuery = userRepository.GetAll();
 
-            #region FILTER
-
-            // filter by UserName
-            if (filterInput.UserName != null)
-            {
-                userQuery = userQuery.Where(x => x.UserName.ToLower().Equals(filterInput.UserName.ToLower()));
-            }
-
-            // filter by FirstName
-            if (filterInput.FirstName != null)
-            {
-                userQuery = userQuery.Where(x => x.FirstName.ToLower().Contains(filterInput.FirstName.ToLower()));
-            }
-
-            // filter by Carrer
-            if (filterInput.Carrer != null)
-            {
-                userQuery = userQuery.Where(x => x.Carrer.ToLower().Contains(filterInput.Carrer.ToLower()));
-            }
-
-            #endregion
+            userQuery = userQuery.Filter(filterInput);
 
             PagingResultDto<UserDto> userResult = userQuery
                 .ProjectTo<UserDto>(mapper.ConfigurationProvider)
@@ -179,6 +160,13 @@ namespace WebCore.Services.Impl.Admins.Users
         public WebCoreUser GetById(EntityId<string> entityId)
         {
             return userRepository.GetById(entityId.Id);
+        }
+
+        public void InActiveUser(string userId)
+        {
+            var user = userRepository.GetById(userId);
+            user.RecordStatus = ConstantConfig.UserRecordStatus.InActive;
+            userRepository.Update(user);
         }
     }
 }

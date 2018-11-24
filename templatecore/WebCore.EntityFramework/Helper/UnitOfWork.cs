@@ -15,6 +15,7 @@ namespace WebCore.EntityFramework.Helper
         int SaveChanges(bool acceptAllChangesOnSuccess);
         int SaveChanges();
         Task SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        void Rollback();
     }
     public class UnitOfWork : IUnitOfWork
     {
@@ -37,6 +38,11 @@ namespace WebCore.EntityFramework.Helper
                 dbTransaction.Commit();
                 dbTransaction = null;
             }
+        }
+
+        public void Rollback()
+        {
+            dbContext.Database.RollbackTransaction();
         }
 
         public int SaveChanges(bool acceptAllChangesOnSuccess)

@@ -47,6 +47,10 @@ namespace WebCore.Utils.Config
         {
             public const string Permission = "Permission";
         }
+        public static class ClaimValue
+        {
+            public const string BlockUser = "BlockUser";
+        }
         public static class SystemConfigName
         {
             public const string PageDefaultNumber = "PageDefaultNumber";

@@ -29,6 +29,14 @@
         });
     }
 
+    // lockuser
+    function lockUser(userId) {
+        $.post('/Admin/User/InActiveUser', 'userId=' + userId).done(function () {
+            showSuccessNotification('Thanh cong');
+            reloadMainList();
+        });
+    }
+
     // on update success
     function onInputSubmitDone(response) {
         $('#input-area').modal('hide');
