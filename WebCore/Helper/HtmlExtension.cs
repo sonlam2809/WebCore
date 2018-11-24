@@ -44,5 +44,12 @@ namespace WebCore.Helper
             var httpContext = helper.ViewContext.HttpContext.RequestServices.GetRequiredService<IHttpContextAccessor>();
             return httpContext.HttpContext.User.Claims.Any(x => x.Value == permission);
         }
+
+        public static bool IsLogin(this IHtmlHelper helper)
+        {
+            IHttpContextAccessor httpContextAccessor = helper.ViewContext.HttpContext.RequestServices.GetRequiredService<IHttpContextAccessor>();
+            var name = httpContextAccessor.HttpContext.User?.Identity?.Name;
+            return name != null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using WebCore.Areas.Admin.Models;
 using WebCore.EntityFramework.Helper;
@@ -11,6 +12,7 @@ using WebCore.Utils.ModelHelper;
 namespace WebCore.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class LanguageDetailController : AdminBaseController
     {
         private readonly ILanguageDetailAdminService languageDetailService;
@@ -30,7 +32,7 @@ namespace WebCore.Areas.Admin.Controllers
             LanguageDetailFilterInput filterInput = GetFilterInSession<LanguageDetailFilterInput>(ConstantConfig.SessionName.LanguageDetailSession);
             filterInput.PageNumber = page;
             filterInput.LangCode = langCode;
-
+            
             viewModel.PagingResult = languageDetailService.GetAllByPaging(filterInput);
             viewModel.LangCode = langCode;
             viewModel.FilterInput = filterInput;
